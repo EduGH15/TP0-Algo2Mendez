@@ -11,11 +11,32 @@ struct ataque {
 	unsigned int poder;
 };
 
-void copiar_datos(char nuevo_dato[MAX_LONGITUD], char datos[MAX_LONGITUD], int inicio, int limite) {
+/*
+void copiar_datos(char nuevo_dato[20], char datos[MAX_LONGITUD], int inicio, int limite) {
 	for(int i = inicio; i < limite; i++){
 		nuevo_dato[i - inicio] = datos[i];
 	}
 	nuevo_dato[limite - inicio] = '\0'; // Agregar el carácter nulo al final
+}
+*/
+
+void copiar_datos(char nuevo_dato[20], char datos[MAX_LONGITUD],int inicio ,int limite){
+	for(int i = inicio; i < limite; i++){
+		nuevo_dato[i] = datos[i];
+	}
+	nuevo_dato[limite] = 0;
+}
+
+void copiar_tipo(char* tipo, char datos[MAX_LONGITUD],int inicio ,int limite){
+	for(int i = inicio; i < limite; i++){
+		*tipo = datos[i];
+	}
+}
+
+void copiar_poder(char* poder, char datos[MAX_LONGITUD],int inicio ,int limite){
+	for(int i = inicio; i < limite; i++){
+		*poder = datos[i];
+	}
 }
 
 struct ataque *parsear_ataque(char *texto, struct ataque *ataque){
@@ -38,8 +59,8 @@ struct ataque *parsear_ataque(char *texto, struct ataque *ataque){
 	}	
 
 	copiar_datos(campo_nombre, copia_texto, 0, posicion_delimitador_1);
-	copiar_datos(&campo_tipo, copia_texto, posicion_delimitador_1, posicion_delimitador_2);
-	copiar_datos(&campo_poder, copia_texto, posicion_delimitador_2, posicion_delimitador_3);
+	copiar_tipo(&campo_tipo, copia_texto, posicion_delimitador_1, posicion_delimitador_2);
+	copiar_poder(&campo_poder, copia_texto, posicion_delimitador_2, posicion_delimitador_3);
 	
 	strcpy(ataque->nombre, campo_nombre);	
 
@@ -59,7 +80,7 @@ struct ataque *parsear_ataque(char *texto, struct ataque *ataque){
 		return NULL; // Tipo desconocido
 	}
 
-	ataque->poder = atoi(campo_poder);
+	ataque->poder = atoi(&campo_poder);
 	return ataque;
 }
 
