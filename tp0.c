@@ -13,7 +13,8 @@ struct ataque {
 struct ataque *parsear_ataque(char *texto, struct ataque *ataque)
 {
 	//completar esta función según lo pedido en el enunciado
-
+	int i = 0;
+	int j = 0;
 	return NULL;
 }
 
