@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#define MAX_LONGITUD 100
 
 enum TIPO { NORMAL, FUEGO, AGUA, PLANTA, ELECTRICO, ROCA };
 
@@ -10,12 +11,56 @@ struct ataque {
 	unsigned int poder;
 };
 
-struct ataque *parsear_ataque(char *texto, struct ataque *ataque)
-{
-	//completar esta función según lo pedido en el enunciado
-	int i = 0;
-	int j = 0;
-	return NULL;
+void copiar_datos(char nuevo_dato[MAX_LONGITUD], char datos[MAX_LONGITUD], int inicio, int limite) {
+	for(int i = inicio; i < limite; i++){
+		nuevo_dato[i - inicio] = datos[i];
+	}
+	nuevo_dato[limite - inicio] = '\0'; // Agregar el carácter nulo al final
+}
+
+struct ataque *parsear_ataque(char *texto, struct ataque *ataque){
+	char copia_texto[MAX_LONGITUD];
+	char campo_nombre[20];
+	char campo_tipo;
+	char campo_poder;
+
+	int posicion_delimitador_1 = -1;
+	int posicion_delimitador_2 = -1;
+	int posicion_delimitador_3 = -1;
+	strcpy(copia_texto, texto);
+	
+	for(int i = 0; i < strlen(texto); i++){
+		if(copia_texto[i] == ';'){
+			posicion_delimitador_1 = i;
+			posicion_delimitador_2 = i + 2;
+		}
+		posicion_delimitador_3 = strlen(texto);
+	}	
+
+	copiar_datos(campo_nombre, copia_texto, 0, posicion_delimitador_1);
+	copiar_datos(&campo_tipo, copia_texto, posicion_delimitador_1, posicion_delimitador_2);
+	copiar_datos(&campo_poder, copia_texto, posicion_delimitador_2, posicion_delimitador_3);
+	
+	strcpy(ataque->nombre, campo_nombre);	
+
+	if (campo_tipo == 'N') {
+		ataque->tipo = NORMAL;
+	} else if (campo_tipo == 'F') {
+		ataque->tipo = FUEGO;
+	} else if (campo_tipo == 'A') {
+		ataque->tipo = AGUA;
+	} else if (campo_tipo == 'P') {
+		ataque->tipo = PLANTA;
+	} else if (campo_tipo == 'E') {
+		ataque->tipo = ELECTRICO;
+	} else if (campo_tipo == 'R') {
+		ataque->tipo = ROCA;
+	} else {
+		return NULL; // Tipo desconocido
+	}
+
+	ataque->poder = atoi(campo_poder);
+	return ataque;
 }
 
 int main()
@@ -47,5 +92,6 @@ int main()
 		errores++;
 	}
 
+	printf("Total de errores: %i\n", errores);
 	return errores;
 }
