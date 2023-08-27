@@ -4,7 +4,7 @@
 
 # TP0
 
-## Repositorio de (Nombre Apellido) - (Padrón) - (Mail)
+## Repositorio de Eduardo González - 110006 - eegonzalez@fi.uba.ar
 
 - Para compilar:
 
